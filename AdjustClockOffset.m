@@ -19,8 +19,11 @@ function [offset] = AdjustClockOffset(myKsDir)
 % 
 % fclose(fid);
 
-
-foo = dir(fullfile(myKsDir,'*_ADC1.continuous')); % pressure sensor
+if ~isempty(dir(fullfile(myKsDir,'*_ADC1.continuous')))
+    foo = dir(fullfile(myKsDir,'*_ADC1.continuous')); % pressure sensor
+else
+    foo = dir(fullfile(myKsDir,'1*_65.continuous')); % pressure sensor
+end
 filename = fullfile(myKsDir,foo.name);
 [Auxdata1, timestamps, ~] = load_open_ephys_data(filename); % data has channel IDs
 offset = timestamps(1);
